@@ -9,7 +9,7 @@ fn main() {
     let map_file_path = "data/map.jpg";
     let map = OccupancyMap::new(map_file_path);
 
-    let num_vertices = 500;   // Quantos nós aleatórios gerar
+    let num_vertices = 250;   // Quantos nós aleatórios gerar
     let connection_radius = 60.0; // Distância máx. para tentar conectar (em pixels)
     
     // --- 3. Gerar o Grafo Aleatório ---
