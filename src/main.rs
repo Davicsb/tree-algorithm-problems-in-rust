@@ -1,9 +1,11 @@
 mod structs;
 mod readmap;
 mod prm_generator;
+mod kruskal;
 
 use readmap::OccupancyMap;
 use prm_generator::{generate_random_graph, save_graph_to_csv};
+use kruskal::kruskal;
 
 fn main() {
     let map_file_path = "data/map.jpg";
@@ -20,5 +22,12 @@ fn main() {
     match save_graph_to_csv(&random_graph, graph_csv_path) {
         Ok(_) => println!("Grafo aleatório completo salvo em {}", graph_csv_path),
         Err(e) => eprintln!("Erro ao salvar o grafo completo em CSV: {}", e),
+    }
+
+    let agm = kruskal(&random_graph);
+    let agm_csv_path = "data/AGM.csv";
+    match save_graph_to_csv(&agm, agm_csv_path) {
+        Ok(_) => println!("Árvore Geradora Minima salva em {}", graph_csv_path),
+        Err(e) => eprintln!("Erro ao salvar a Árvore Geradora Minima em CSV: {}", e),
     }
 }

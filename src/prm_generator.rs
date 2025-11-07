@@ -53,7 +53,7 @@ pub fn generate_random_graph(map: &OccupancyMap, num_vertices: usize, connection
                 if !map.is_path_colliding(&p1, &p2, collision_check_steps) {
                     // Adiciona a aresta não-direcionada (em ambas as direções)
                     graph.add_edge(i, j, dist);
-                    graph.add_edge(j, i, dist);
+                    //graph.add_edge(j, i, dist); comentado pq add_edge ja faz isso
                 }
             }
         }

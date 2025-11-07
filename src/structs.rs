@@ -21,6 +21,19 @@ pub struct Edge {
     pub weight: f64,
 }
 
+/// Usado para retornar a lista de arestas pra dar sort,
+// A struct salva a informação do vértice de partida além do de ida
+#[derive(Debug, Clone)]
+pub struct UndirEdge {
+    /// O indice do vértice de partida
+    pub from: usize,
+    /// O indice do vértice de destino
+    pub to: usize,
+    /// O peso da aresta
+    pub weight: f64,
+}
+
+
 /// Representa um grafo espacial ponderado.
 #[derive(Debug)]
 pub struct Graph {
@@ -46,11 +59,12 @@ impl Graph {
         new_idx
     }
 
-    /// Adiciona uma aresta DIRECIONADA de 'from_idx' para 'to_idx'
+    /// Adiciona uma aresta NÃO DIRECIONADA de 'from_idx' para 'to_idx', ou seja, adiciona para a ida e volta
     /// com um 'weight' (peso) especificado.
     pub fn add_edge(&mut self, from_idx: usize, to_idx: usize, weight: f64) {
         if from_idx < self.vertices.len() && to_idx < self.vertices.len() {
             self.adj[from_idx].push(Edge { to_idx, weight });
+            self.adj[to_idx].push(Edge { to_idx: from_idx, weight });
         }
     }
     
@@ -62,5 +76,39 @@ impl Graph {
     /// Retorna a lista de arestas (vizinhos e pesos) de um vértice.
     pub fn get_neighbors(&self, idx: usize) -> Option<&Vec<Edge>> {
         self.adj.get(idx)
+    }
+
+    /// Retorna a lista de todas as arestas de um grafo
+    pub fn get_undirected_edges(&self) -> Vec<UndirEdge> {
+        /// Armazena todas as arestas do grafo
+        let mut edges = Vec::new();
+        /// Salva as arestas já vistas pra evitar salvar a mesma aresta
+        let mut visto = std::collections::HashSet::new();
+
+        /// Itera por todos vértices (from_idx) junto com a lista de seus vizinhos (neighbors)
+        for (from_idx, neighbors) in self.adj.iter().enumerate(){
+            /// Itera a lista de vizinhos
+            for edge in neighbors {
+                /// Cria uma key utilizando o par de vértices de partida e ida, a key será a mesma idependente de como recebe o par
+                /// por exemplo: recebendo (2, 5) ou (5, 2) a key será (2,5)
+                let key = if from_idx < edge.to_idx {
+                    (from_idx, edge.to_idx)
+                } else {
+                    (edge.to_idx, from_idx)
+                };
+
+                /// Se a aresta já tiver sido vista esse if falha.
+                if visto.insert(key) {
+                    /// Cria um UndirEdge com as informações de partida, ida e peso
+                    edges.push(UndirEdge{
+                        from: from_idx,
+                        to: edge.to_idx,
+                        weight: edge.weight,
+                    });
+                }
+            }
+        }
+
+        edges
     }
 }
