@@ -1,3 +1,5 @@
+#![allow(warnings)]
+
 use crate::structs::{Graph};
 
 
@@ -46,7 +48,7 @@ impl DSU {
 }
 
 /// Retorna uma Árvore Geradora Minima
-pub fn kruskal(gr: &Graph) -> Graph {
+pub fn kruskal(gr: &Graph) -> Result<Graph, String> {
     /// Pega todas as arestas do grafo original
     let mut edges = gr.get_undirected_edges();
     /// Ordena as arestas por peso crescente
@@ -70,5 +72,16 @@ pub fn kruskal(gr: &Graph) -> Graph {
         }
     }
 
-    agm
+    // Checagem se o grafo é conexo
+    let mut roots = std::collections::HashSet::new();
+    // Itera por todos os vértices, achando a raíz de cada um e salvando-as
+    for i in 0..gr.vertices.len() {
+        roots.insert(dsu.find(i));
+    }
+    // Se houver mais de um elemento em roots, signifca que há mais de uma raíz e que, portanto, o grafo não é conexo
+    if roots.len() > 1 {
+        return Err(format!("O grafo não é conexo. Existem {} componentes.", roots.len()));
+    }
+
+    Ok(agm)
 }
