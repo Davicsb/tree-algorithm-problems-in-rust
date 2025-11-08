@@ -1,4 +1,8 @@
-#[derive(Clone, Copy, Debug, PartialEq)]
+#![allow(warnings)]
+
+use std::hash::{Hash, Hasher};
+
+#[derive(Clone, Copy, Debug)]
 pub struct Point {
     pub x: f64,
     pub y: f64,
@@ -7,6 +11,22 @@ pub struct Point {
 impl Point {
     pub fn dist(&self, other: &Point) -> f64 {
         ((self.x - other.x).powi(2) + (self.y - other.y).powi(2)).sqrt()
+    }
+}
+
+
+impl PartialEq for Point {
+    fn eq(&self, other: &Self) -> bool {
+        self.x.to_bits() == other.x.to_bits() && self.y.to_bits() == other.y.to_bits()
+    }
+}
+
+impl Eq for Point {}
+
+impl Hash for Point {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.x.to_bits().hash(state);
+        self.y.to_bits().hash(state);
     }
 }
 
