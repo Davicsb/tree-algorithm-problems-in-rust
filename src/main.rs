@@ -1,33 +1,93 @@
+#![allow(warnings)]
 mod structs;
 mod readmap;
 mod prm_generator;
 mod kruskal;
+mod dfs;
+mod read_graph;
 
 use readmap::OccupancyMap;
 use prm_generator::{generate_random_graph, save_graph_to_csv};
 use kruskal::kruskal;
+use dfs::{dfs_path, path_export};
+use read_graph::read_graph;
+use std::io;
 
 fn main() {
-    let map_file_path = "data/map.jpg";
-    let map = OccupancyMap::new(map_file_path);
+    println!("Qual operação você quer realizar?\n1 - Gerar um grafo e AGM para o mapa (primeira escolha)\n2 - Achar o caminho entre dois pontos utilizando a AGM criada.");
+    let mut input_line = String::new();
+    io::stdin().read_line(&mut input_line).expect("Failed to read line.");
+    let num : i32 = input_line.trim().parse().expect("The input is not an integer.");
 
-    let num_vertices = 250;   // Quantos nós aleatórios gerar
-    let connection_radius = 60.0; // Distância máx. para tentar conectar (em pixels)
+    if num == 1 {
+        /// Entra em loop caso o grafo não seja conexo
+        loop {
+            let map_file_path = "data/map.jpg";
+            let map = OccupancyMap::new(map_file_path);
+
+            let num_vertices = 300;   // Quantos nós aleatórios gerar, VALOR ORIGINAL = 250
+            let connection_radius = 80.0; // Distância máx. para tentar conectar (em pixels), VALOR ORIGINAL = 60
     
-    // --- 3. Gerar o Grafo Aleatório ---
-    let random_graph = generate_random_graph(&map, num_vertices, connection_radius);
-    println!("Grafo aleatório gerado com {} vértices.", random_graph.vertices.len());
+            // --- 3. Gerar o Grafo Aleatório ---
+            let random_graph = generate_random_graph(&map, num_vertices, connection_radius);
+            println!("Grafo aleatório gerado com {} vértices.", random_graph.vertices.len());
 
-    let graph_csv_path = "data/graph.csv";
-    match save_graph_to_csv(&random_graph, graph_csv_path) {
-        Ok(_) => println!("Grafo aleatório completo salvo em {}", graph_csv_path),
-        Err(e) => eprintln!("Erro ao salvar o grafo completo em CSV: {}", e),
-    }
+            let graph_csv_path = "data/graph.csv";
+            match save_graph_to_csv(&random_graph, graph_csv_path) {
+                Ok(_) => println!("Grafo aleatório completo salvo em {}", graph_csv_path),
+                Err(e) => eprintln!("Erro ao salvar o grafo completo em CSV: {}", e),
+            }
 
-    let agm = kruskal(&random_graph);
-    let agm_csv_path = "data/AGM.csv";
-    match save_graph_to_csv(&agm, agm_csv_path) {
-        Ok(_) => println!("Árvore Geradora Minima salva em {}", graph_csv_path),
-        Err(e) => eprintln!("Erro ao salvar a Árvore Geradora Minima em CSV: {}", e),
+            let agm = match kruskal(&random_graph) {
+                Ok(g) => g,
+                Err(e) => {
+                    eprintln!("{}", e);
+                    println!("Você gostaria de gerar outro grafo e tentar novamente?\n1 - Sim\n2 - Não");
+
+                    input_line.clear();
+                    io::stdin().read_line(&mut input_line).expect("Failed to read line.");
+                    let num : i32 = input_line.trim().parse().expect("The input is not an integer.");
+
+                    if num == 1 {
+                        continue;
+                    } else {
+                        return;
+                    }
+                }
+            };
+
+            let agm_csv_path = "data/AGM.csv";
+            match save_graph_to_csv(&agm, agm_csv_path) {
+                Ok(_) => println!("Árvore Geradora Minima salva em {}", agm_csv_path),
+                Err(e) => eprintln!("Erro ao salvar a Árvore Geradora Minima em CSV: {}", e),
+            }
+
+            break;
+        }
+
+    } else {
+        let agm_csv_path = "data/AGM.csv";
+
+        // Leitura da AGM
+        let agm = match read_graph(agm_csv_path) {
+            Ok(g) => g,
+            Err(e) => {
+                eprintln!("Erro ao ler o grafo: {}", e);
+                return;
+            }
+        };
+
+        // Busca e consturção do caminho com o DFS
+        if let Some(ref path_vec) = dfs_path(&agm, 50, 100) {
+            println!("Caminho encontrado: {:?}", path_vec);
+
+            match path_export(&agm, path_vec, "data/caminho.csv") {
+                Ok(_) => println!("Caminho salvo em data/caminho.csv"),
+                Err(e) => eprintln!("Erro ao salvar o caminho completo em CSV: {}", e),
+            }
+
+        } else {
+            println!("Nenhum caminho encontrado.");
+        }       
     }
 }
