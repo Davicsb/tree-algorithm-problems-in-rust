@@ -1,4 +1,5 @@
 // src/prm_generator.rs
+#![allow(warnings)]
 
 use crate::readmap::OccupancyMap;
 use crate::structs::{Graph, Point};
