@@ -6,6 +6,8 @@ import os
 
 # ENTRADA: O CSV gerado pelo Rust
 graph_csv = "../data/graph.csv"
+# ENTRADA: O CSV da arvore geradora minima gerado pelo Rust
+agm_csv = "../data/AGM.csv"
 # ENTRADA: O mapa usado pelo Rust
 map_path = "../data/map.jpg" 
 # SAÍDA: O nome do vídeo que será criado
@@ -15,6 +17,13 @@ try:
     edges = pd.read_csv(graph_csv)
 except FileNotFoundError:
     print(f"Erro: Arquivo não encontrado em {graph_csv}")
+    print("Verifique se você executou o código Rust primeiro.")
+    exit()
+
+try:
+    agm_edges = pd.read_csv(agm_csv)
+except FileNotFoundError:
+    print(f"Erro: AGM não encontrada em {agm_csv}")
     print("Verifique se você executou o código Rust primeiro.")
     exit()
     
@@ -35,7 +44,7 @@ print(f"Carregados {len(all_nodes)} nós e {len(edges)} arestas.")
 
 fig, ax = plt.subplots(figsize=(10, 8))
 ax.imshow(map_img)
-ax.set_title("Geração do Grafo Aleatório (PRM)")
+ax.set_title("Geração do Grafo Aleatório (PRM) e sua Árvore Geradora Minima")
 ax.set_xlabel("Coordenada X (pixels)")
 ax.set_ylabel("Coordenada Y (pixels)")
 # ax.axis("equal") # Removido caso a imagem tenha proporções diferentes
@@ -45,6 +54,7 @@ points = []  # Lista para guardar os nós (pontos)
 
 total_nodes = len(all_nodes)
 total_edges = len(edges)
+total_agm_edges = len(agm_edges)
 
 # --- 3. Função de Animação (Update) ---
 
@@ -54,7 +64,7 @@ def update(frame):
     # Fase 1: Desenha os Nós (um por frame)
     if i < total_nodes:
         if i == 0:
-            print("Fase 1/2: Desenhando nós...")
+            print("Fase 1/3: Desenhando nós...")
         node = all_nodes.iloc[i]
         # Desenha o nó
         point, = ax.plot(node["x"], node["y"], "b.", markersize=4)
@@ -63,7 +73,7 @@ def update(frame):
     # Fase 2: Desenha as Arestas (uma por frame)
     elif i < total_nodes + total_edges:
         if i == total_nodes:
-            print("Fase 2/2: Desenhando arestas...")
+            print("Fase 2/3: Desenhando arestas...")
         edge_idx = i - total_nodes
         edge = edges.iloc[edge_idx]
         
@@ -72,7 +82,20 @@ def update(frame):
                           [edge["y1"], edge["y2"]],
                           "g-", linewidth=0.5, alpha=0.6)
         lines.append(line)
-        
+
+    # Fase 4: Desenha a Árvore Geradora Minima por cima do grafo
+    elif i < total_nodes + total_edges + total_agm_edges:
+        if i == total_nodes + total_edges:
+            print("Fase 3/3: Desenhando AGM...")
+        agm_idx = i - (total_nodes + total_edges)
+        edge = agm_edges.iloc[agm_idx]
+
+        #Desenha a aresta sobreposta (vermelha)
+        line, = ax.plot([edge["x1"], edge["x2"]],
+                        [edge["y1"], edge["y2"]],
+                        "r-", linewidth=1.5, alpha=0.9)
+        lines.append(line)
+
     # Fase 3: Pausa (mostra o resultado final)
     else:
         if i == total_nodes + total_edges:
@@ -84,8 +107,8 @@ def update(frame):
 
 # --- 4. Criar e Salvar a Animação ---
 
-# Total de frames: nós + arestas + 30 frames de pausa
-total_frames = total_nodes + total_edges + 30
+# Total de frames: nós + arestas + arestas da AGM + 200 frames de pausa
+total_frames = total_nodes + total_edges + total_agm_edges + 200
 
 ani = animation.FuncAnimation(
     fig,
