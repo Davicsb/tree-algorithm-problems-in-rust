@@ -8,6 +8,7 @@ pub use crate::vertice_mais_proximo::vertice_mais_prox;
 pub use crate::dfs::{dfs_path, path_export};
 use std::io;
 
+/// Lê o mapa, a AGM e duas coordenadas de inicio e fim, calcula o vértice mais proximo de cada coordenada e o caminho entre elas
 pub fn second_case() {
     let mut input_line = String::new();
 

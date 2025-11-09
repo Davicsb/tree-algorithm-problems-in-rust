@@ -6,6 +6,7 @@ pub use crate::prm_generator::{generate_random_graph, save_graph_to_csv};
 pub use crate::kruskal::kruskal;
 use std::io;
 
+/// Gera um grafo aleatório para o mapa e sua árvore geradora minima e salva ambos como .csv em /data
 pub fn first_case() {
     let mut input_line = String::new();
     /// Entra em loop caso o grafo não seja conexo
