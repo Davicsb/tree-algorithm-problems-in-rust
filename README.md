@@ -14,13 +14,16 @@ Os scripts em **Python** são usados para ler os dados gerados pelo Rust (`.csv`
 
 ### 1. Geração do Grafo (PRM) e da AGM
 
+https://github.com/user-attachments/assets/2751cad8-55d4-41b1-827c-d78792820cd3
 /data/prm_animation.mp4
 
 ### 2. Busca do Caminho na AGM
 
+https://github.com/user-attachments/assets/fec0a073-a360-4ad7-8ed1-0fa0b5ccc6e9
 /data/caminho_animation.mp4
 
 ## Como Executar
+
 
 ```bash
     git clone ttps://github.com/Davicsb/tree-algorithm-problems-in-rust.git
@@ -60,4 +63,5 @@ Terminal
 Se está em WSL e não tem WSL Utilities
 ```bash
     sudo apt update && sudo apt install wslu
+
 ```
