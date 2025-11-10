@@ -20,12 +20,16 @@ Os scripts em **Python** são usados para ler os dados gerados pelo Rust (`.csv`
 
 ### 1. Geração do Grafo (PRM) e da AGM
 
-/output/prm_animation.mp4
+<img width="848" height="688" alt="image" src="https://github.com/user-attachments/assets/efc23497-1985-4e99-a7cf-01c9a434b64d" />
+
+Caminho da animação: /output/prm_animation.mp4
 
 ### 2. Busca do Caminho na AGM
 
+<img width="848" height="680" alt="image" src="https://github.com/user-attachments/assets/416b917e-ec42-4eeb-b46b-9276b7fe29ed" />
+
 ### Exemplo com vértice inicial: 183.94,499.82 e final: 292.41,202.1
-/output/caminho_animation.mp4
+Caminho da animação: /output/caminho_animation.mp4
 
 ## Como Executar
 
@@ -65,6 +69,7 @@ Se está em WSL e não tem WSL Utilities
     sudo apt update && sudo apt install wslu
 
 ```
+
 
 
 
