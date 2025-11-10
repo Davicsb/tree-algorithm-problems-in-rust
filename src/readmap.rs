@@ -1,3 +1,5 @@
+//! # Lê o mapa e funções que ajudam na manipulação do mapa
+
 #![allow(warnings)]
 use std::fs::File;
 use std::io::{self, BufRead};

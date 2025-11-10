@@ -1,3 +1,5 @@
+//! # Structs utilizadas
+
 #![allow(warnings)]
 
 use std::hash::{Hash, Hasher};

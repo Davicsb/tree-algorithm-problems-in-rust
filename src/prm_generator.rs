@@ -1,4 +1,6 @@
-// src/prm_generator.rs
+
+//! # Gera o grafo aleatório dado um mapa 
+
 #![allow(warnings)]
 
 use crate::readmap::OccupancyMap;

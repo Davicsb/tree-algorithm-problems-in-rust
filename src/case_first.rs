@@ -1,4 +1,14 @@
+//! #  Gera um grafo aleatório para o mapa e sua árvore geradora minima e salva ambos como .csv em /data
+//! ## Output esperado
+//! Arquivo CSV contendo o grafo e sua arvore geradora mínima em /data. O CSV está estruturado no ponto x y do vértice original, x y do vérfice destino e o peso da aresta.\
+//! ## Algortimo utilizado
+//! PRM para gerar o grafo aleatório;\
+//! Kruskal para gerar a orvore geradora mínima.\
+//! ### Motivação
+//! Apesar da atividade pedir um grafo de visibilidade, optamos por um PRM para conseguirmos lidar com obstáculos não poligonais e Kruskal para o usuário ter retorno se o grafo é conexo, e se não for gerar outro grafo.
+
 #![allow(warnings)]
+
 
 pub use crate::structs;
 pub use crate::readmap::OccupancyMap;

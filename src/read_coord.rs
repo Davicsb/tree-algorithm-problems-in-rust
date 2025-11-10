@@ -1,3 +1,6 @@
+
+//! #  Lê dois números e retorna-os como f64
+
 use std::io;
 
 /// Lê dois números e retorna-os como f64

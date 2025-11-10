@@ -105,7 +105,7 @@ def update(frame):
         # Desenha a aresta
         line, = ax.plot([edge["x1"], edge["x2"]],
                           [edge["y1"], edge["y2"]],
-                          color="lightgreen", linewidth=1.5, alpha=0.9)
+                          color="red", linewidth=1.5, alpha=0.9)
         lines.append(line)
     
     # Fase 3: Pausa (mostra o resultado final)

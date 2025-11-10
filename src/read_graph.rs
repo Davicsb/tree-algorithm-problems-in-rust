@@ -1,3 +1,5 @@
+//! Lê um arquivo csv e retorna um grafo completo
+
 #![allow(warnings)]
 use crate::structs::{Graph, Point, Edge};
 use std::collections::HashMap;

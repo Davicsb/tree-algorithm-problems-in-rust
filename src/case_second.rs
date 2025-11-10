@@ -1,3 +1,5 @@
+//! #  Lê o mapa, a AGM e duas coordenadas de inicio e fim, calcula o vértice mais proximo de cada coordenada e o caminho entre elas
+
 #![allow(warnings)]
 
 pub use crate::structs;
@@ -31,7 +33,8 @@ pub fn second_case() {
 
         let i1 = match vertice_mais_prox(&agm, &map, x1, y1) {
             Ok(idx) => {
-                println!("Vértice mais próximo: {}", idx);
+                let vertice = &agm.vertices[idx];
+                println!("Vértice mais próximo: (x: {}, y: {})", vertice.x, vertice.y);
                 idx
             },
             Err(e) => {
@@ -55,7 +58,8 @@ pub fn second_case() {
 
         let i2 = match vertice_mais_prox(&agm, &map, x2, y2) {
             Ok(idx) => {
-                println!("Vértice mais próximo: {}", idx);
+                let vertice = &agm.vertices[idx];
+                println!("Vértice mais próximo: (x: {}, y: {})", vertice.x, vertice.y);
                 idx
             },
             Err(e) => {

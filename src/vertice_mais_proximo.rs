@@ -1,3 +1,5 @@
+//! Recebe uma coordenada x e y e retorna o indice do vértice mais próximo no mapa
+
 use crate::structs::{Graph, Point};
 use crate::readmap::OccupancyMap;
 

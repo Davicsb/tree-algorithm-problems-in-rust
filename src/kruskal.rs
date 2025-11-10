@@ -1,3 +1,6 @@
+
+//! #  Algoritmo que faz a árvore geradora mínima
+
 #![allow(warnings)]
 
 use crate::structs::{Graph};

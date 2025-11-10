@@ -1,3 +1,6 @@
+
+//! #  Calcula o caminho entre dois vértices.
+
 #![allow(warnings)]
 use crate::structs::{Graph};
 use std::fs::File;
