@@ -12,20 +12,22 @@ Os scripts em **Python** são usados para ler os dados gerados pelo Rust (`.csv`
 
 ## Resultado Final
 
+### Para visualização do vídeo é recomendado a clonagem do repositório para ver o vídeo diratamente na IDE de programação
+
+```bash
+    git clone ttps://github.com/Davicsb/tree-algorithm-problems-in-rust.git
+```
+
 ### 1. Geração do Grafo (PRM) e da AGM
 
 /output/prm_animation.mp4
 
 ### 2. Busca do Caminho na AGM
 
+### Exemplo com vértice inicial: 183.94,499.82 e final: 292.41,202.1
 /output/caminho_animation.mp4
 
 ## Como Executar
-
-
-```bash
-    git clone ttps://github.com/Davicsb/tree-algorithm-problems-in-rust.git
-```
 
 ### Gerando o grafo e o caminho
 
@@ -63,6 +65,7 @@ Se está em WSL e não tem WSL Utilities
     sudo apt update && sudo apt install wslu
 
 ```
+
 
 
 
