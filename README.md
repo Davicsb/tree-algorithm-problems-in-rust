@@ -14,11 +14,11 @@ Os scripts em **Python** são usados para ler os dados gerados pelo Rust (`.csv`
 
 ### 1. Geração do Grafo (PRM) e da AGM
 
-/data/prm_animation.mp4
+/output/prm_animation.mp4
 
 ### 2. Busca do Caminho na AGM
 
-/data/caminho_animation.mp4
+/output/caminho_animation.mp4
 
 ## Como Executar
 
@@ -63,6 +63,7 @@ Se está em WSL e não tem WSL Utilities
     sudo apt update && sudo apt install wslu
 
 ```
+
 
 
 
